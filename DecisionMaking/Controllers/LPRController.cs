@@ -1,4 +1,5 @@
 ﻿using DecisionMaking.Models;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace DecisionMaking.Controllers
@@ -8,7 +9,22 @@ namespace DecisionMaking.Controllers
         // GET: LPR
         public ActionResult Index()
         {
-            return View();
+            var result = new List<LPR>
+            {
+                new LPR()
+                {
+                    LNum = 1,
+                    LName = "Test LPR 1",
+                    LRange = 1
+                },
+                new LPR()
+                {
+                    LNum = 2,
+                    LName = "Test LPR 2",
+                    LRange = 2
+                }
+            };
+            return View(result);
         }
 
         // GET: LPR/Details/5
