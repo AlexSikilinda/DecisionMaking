@@ -33,7 +33,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer class="text-center">            
+        <footer class="text-center">
             <p>Alex Sikilinda</p>
             <p>Vlad Zotov</p>
             <p>Max Ivashchenko</p>
@@ -44,5 +44,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+        new WOW().init();
+    </script>
 </body>
 </html>
