@@ -7,6 +7,9 @@ using System.Web;
 
 namespace DecisionMaking.Models
 {
+    /// <summary>
+    /// Лицо принимающее решение.
+    /// </summary>
     public class LPR
     {
         [Key]
