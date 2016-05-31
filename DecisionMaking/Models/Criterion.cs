@@ -7,6 +7,9 @@ using System.Web;
 
 namespace DecisionMaking.Models
 {
+    /// <summary>
+    /// Описание критериев качества задачи принятия решений
+    /// </summary>
     public class Criterion
     {
         [Key]
