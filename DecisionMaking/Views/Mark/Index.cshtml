@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<DecisionMaking.Models.Mark>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Mark";
 }
 
-<h2>Index</h2>
+<h2>Mark</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
 </p>
-<table class="table">
+<table class="table table-striped table-bordered">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Criterion.CName)

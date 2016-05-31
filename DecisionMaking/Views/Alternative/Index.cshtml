@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<DecisionMaking.Models.Alternative>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Alternative";
 }
 
-<h2>Index</h2>
+<h2>Alternative</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
 </p>
-<table class="table">
+<table class="table table-striped table-bordered">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.AName)
@@ -17,17 +17,18 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ANum }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ANum }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ANum })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ANum }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ANum }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ANum })
+            </td>
+        </tr>
+    }
 
 </table>

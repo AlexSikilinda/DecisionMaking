@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Decision Maker</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -16,13 +16,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Decision Maker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("LPR", "Index", "LPR")</li>
+                    <li>@Html.ActionLink("Alternative", "Index", "Alternative")</li>
+                    <li>@Html.ActionLink("Criterion", "Index", "Criterion")</li>
+                    <li>@Html.ActionLink("Mark", "Index", "Mark")</li>
+                    <li>@Html.ActionLink("Result", "Index", "Result")</li>
+                    <li>@Html.ActionLink("Vector", "Index", "Vector")</li>
                 </ul>
             </div>
         </div>
@@ -30,8 +33,11 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer class="text-center">
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer class="text-center">            
+            <p>Alex Sikilinda</p>
+            <p>Vlad Zotov</p>
+            <p>Max Ivashchenko</p>
+            <p>&copy; @DateTime.Now.Year</p>
         </footer>
     </div>
 
