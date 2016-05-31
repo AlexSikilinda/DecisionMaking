@@ -52,12 +52,24 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -120,12 +132,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AlternativeController.cs" />
     <Compile Include="Controllers\CriterionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MarkController.cs" />
-    <Compile Include="DAL\DecisionContext.cs" />
     <Compile Include="Controllers\LPRController.cs" />
+    <Compile Include="Controllers\MarkController.cs" />
+    <Compile Include="Controllers\ResultController.cs" />
+    <Compile Include="Controllers\VectorController.cs" />
+    <Compile Include="DAL\DecisionContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,22 +188,36 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\LPR\Index.cshtml" />
-    <Content Include="Views\LPR\Details.cshtml" />
-    <Content Include="Views\LPR\Create.cshtml" />
-    <Content Include="Views\LPR\Edit.cshtml" />
-    <Content Include="Views\Alternative\Index.cshtml" />
-    <Content Include="Views\Alternative\Details.cshtml" />
     <Content Include="Views\Alternative\Create.cshtml" />
+    <Content Include="Views\Alternative\Delete.cshtml" />
+    <Content Include="Views\Alternative\Details.cshtml" />
     <Content Include="Views\Alternative\Edit.cshtml" />
-    <Content Include="Views\Criterion\Index.cshtml" />
-    <Content Include="Views\Criterion\Details.cshtml" />
+    <Content Include="Views\Alternative\Index.cshtml" />
     <Content Include="Views\Criterion\Create.cshtml" />
+    <Content Include="Views\Criterion\Delete.cshtml" />
+    <Content Include="Views\Criterion\Details.cshtml" />
     <Content Include="Views\Criterion\Edit.cshtml" />
-    <Content Include="Views\Mark\Details.cshtml" />
-    <Content Include="Views\Mark\Index.cshtml" />
-    <Content Include="Views\Mark\Edit.cshtml" />
+    <Content Include="Views\Criterion\Index.cshtml" />
+    <Content Include="Views\LPR\Create.cshtml" />
+    <Content Include="Views\LPR\Delete.cshtml" />
+    <Content Include="Views\LPR\Details.cshtml" />
+    <Content Include="Views\LPR\Edit.cshtml" />
+    <Content Include="Views\LPR\Index.cshtml" />
     <Content Include="Views\Mark\Create.cshtml" />
+    <Content Include="Views\Mark\Delete.cshtml" />
+    <Content Include="Views\Mark\Details.cshtml" />
+    <Content Include="Views\Mark\Edit.cshtml" />
+    <Content Include="Views\Mark\Index.cshtml" />
+    <Content Include="Views\Result\Create.cshtml" />
+    <Content Include="Views\Result\Delete.cshtml" />
+    <Content Include="Views\Result\Details.cshtml" />
+    <Content Include="Views\Result\Edit.cshtml" />
+    <Content Include="Views\Result\Index.cshtml" />
+    <Content Include="Views\Vector\Create.cshtml" />
+    <Content Include="Views\Vector\Delete.cshtml" />
+    <Content Include="Views\Vector\Details.cshtml" />
+    <Content Include="Views\Vector\Edit.cshtml" />
+    <Content Include="Views\Vector\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

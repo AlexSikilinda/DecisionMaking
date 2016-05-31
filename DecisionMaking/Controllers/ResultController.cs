@@ -11,112 +11,116 @@ using DecisionMaking.Models;
 
 namespace DecisionMaking.Controllers
 {
-    public class MarkController : Controller
+    public class ResultController : Controller
     {
         private DecisionContext db = new DecisionContext();
 
-        // GET: Mark
+        // GET: Result
         public ActionResult Index()
         {
-            var marks = db.Marks.Include(m => m.Criterion);
-            return View(marks.ToList());
+            var results = db.Results.Include(r => r.Alternative).Include(r => r.LPR);
+            return View(results.ToList());
         }
 
-        // GET: Mark/Details/5
+        // GET: Result/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mark mark = db.Marks.Find(id);
-            if (mark == null)
+            Result result = db.Results.Find(id);
+            if (result == null)
             {
                 return HttpNotFound();
             }
-            return View(mark);
+            return View(result);
         }
 
-        // GET: Mark/Create
+        // GET: Result/Create
         public ActionResult Create()
         {
-            ViewBag.CNum = new SelectList(db.Criterions, "CNum", "CName");
+            ViewBag.ANum = new SelectList(db.Alternatives, "ANum", "AName");
+            ViewBag.LNum = new SelectList(db.LPRs, "LNum", "LName");
             return View();
         }
 
-        // POST: Mark/Create
+        // POST: Result/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MNum,CNum,MName,MRange,NumMark,NormMark")] Mark mark)
+        public ActionResult Create([Bind(Include = "RNum,LNum,ANum,Range,AWeight")] Result result)
         {
             if (ModelState.IsValid)
             {
-                db.Marks.Add(mark);
+                db.Results.Add(result);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CNum = new SelectList(db.Criterions, "CNum", "CName", mark.CNum);
-            return View(mark);
+            ViewBag.ANum = new SelectList(db.Alternatives, "ANum", "AName", result.ANum);
+            ViewBag.LNum = new SelectList(db.LPRs, "LNum", "LName", result.LNum);
+            return View(result);
         }
 
-        // GET: Mark/Edit/5
+        // GET: Result/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mark mark = db.Marks.Find(id);
-            if (mark == null)
+            Result result = db.Results.Find(id);
+            if (result == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CNum = new SelectList(db.Criterions, "CNum", "CName", mark.CNum);
-            return View(mark);
+            ViewBag.ANum = new SelectList(db.Alternatives, "ANum", "AName", result.ANum);
+            ViewBag.LNum = new SelectList(db.LPRs, "LNum", "LName", result.LNum);
+            return View(result);
         }
 
-        // POST: Mark/Edit/5
+        // POST: Result/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MNum,CNum,MName,MRange,NumMark,NormMark")] Mark mark)
+        public ActionResult Edit([Bind(Include = "RNum,LNum,ANum,Range,AWeight")] Result result)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(mark).State = EntityState.Modified;
+                db.Entry(result).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CNum = new SelectList(db.Criterions, "CNum", "CName", mark.CNum);
-            return View(mark);
+            ViewBag.ANum = new SelectList(db.Alternatives, "ANum", "AName", result.ANum);
+            ViewBag.LNum = new SelectList(db.LPRs, "LNum", "LName", result.LNum);
+            return View(result);
         }
 
-        // GET: Mark/Delete/5
+        // GET: Result/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mark mark = db.Marks.Find(id);
-            if (mark == null)
+            Result result = db.Results.Find(id);
+            if (result == null)
             {
                 return HttpNotFound();
             }
-            return View(mark);
+            return View(result);
         }
 
-        // POST: Mark/Delete/5
+        // POST: Result/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Mark mark = db.Marks.Find(id);
-            db.Marks.Remove(mark);
+            Result result = db.Results.Find(id);
+            db.Results.Remove(result);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

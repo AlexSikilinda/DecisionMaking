@@ -1,42 +1,39 @@
-﻿using DecisionMaking.Models;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
+using DecisionMaking.DAL;
+using DecisionMaking.Models;
 
 namespace DecisionMaking.Controllers
 {
     public class LPRController : Controller
     {
+        private DecisionContext db = new DecisionContext();
+
         // GET: LPR
         public ActionResult Index()
         {
-            var result = new List<LPR>
-            {
-                new LPR()
-                {
-                    LNum = 1,
-                    LName = "Test LPR 1",
-                    LRange = 1
-                },
-                new LPR()
-                {
-                    LNum = 2,
-                    LName = "Test LPR 2",
-                    LRange = 2
-                }
-            };
-            return View(result);
+            return View(db.LPRs.ToList());
         }
 
         // GET: LPR/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            var fakeModel = new LPR()
+            if (id == null)
             {
-                LNum = 1,
-                LName = "Test LPR 1",
-                LRange = 1
-            };
-            return View(fakeModel);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LPR lPR = db.LPRs.Find(id);
+            if (lPR == null)
+            {
+                return HttpNotFound();
+            }
+            return View(lPR);
         }
 
         // GET: LPR/Create
@@ -46,54 +43,86 @@ namespace DecisionMaking.Controllers
         }
 
         // POST: LPR/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "LNum,LName,LRange")] LPR lPR)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                db.LPRs.Add(lPR);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(lPR);
         }
 
         // GET: LPR/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            var fakeModel = new LPR()
+            if (id == null)
             {
-                LNum = 1,
-                LName = "Test LPR 1",
-                LRange = 1
-            };
-            return View(fakeModel);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LPR lPR = db.LPRs.Find(id);
+            if (lPR == null)
+            {
+                return HttpNotFound();
+            }
+            return View(lPR);
         }
 
         // POST: LPR/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "LNum,LName,LRange")] LPR lPR)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                db.Entry(lPR).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(lPR);
         }
 
         // GET: LPR/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            // TODO: Add delete logic here
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LPR lPR = db.LPRs.Find(id);
+            if (lPR == null)
+            {
+                return HttpNotFound();
+            }
+            return View(lPR);
+        }
+
+        // POST: LPR/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            LPR lPR = db.LPRs.Find(id);
+            db.LPRs.Remove(lPR);
+            db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

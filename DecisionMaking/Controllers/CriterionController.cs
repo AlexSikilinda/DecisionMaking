@@ -1,63 +1,39 @@
-﻿using DecisionMaking.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DecisionMaking.DAL;
+using DecisionMaking.Models;
 
 namespace DecisionMaking.Controllers
 {
     public class CriterionController : Controller
     {
+        private DecisionContext db = new DecisionContext();
+
         // GET: Criterion
         public ActionResult Index()
         {
-            var result = new List<Criterion>
-            {
-                new Criterion
-                {
-                    CNum = 1,
-                    CName = "Test Criterion 1",
-                    CRange = 1,
-                    CWeight = 1,
-                    CType = "CType :)",
-                    OptimType = "OptimType :)",
-                    EdIzmer = "EdIzmer :)",
-                    ScaleType = "ScaleType :)",
-                    Marks = new List<Mark>()
-                },
-                new Criterion
-                {
-                    CNum = 2,
-                    CName = "Test Criterion 2",
-                    CRange = 2,
-                    CWeight = 2,
-                    CType = "CType :)",
-                    OptimType = "OptimType :)",
-                    EdIzmer = "EdIzmer :)",
-                    ScaleType = "ScaleType :)",
-                    Marks = new List<Mark>()
-                }
-            };
-            return View(result);
+            return View(db.Criterions.ToList());
         }
 
         // GET: Criterion/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            var fakeModel = new Criterion
+            if (id == null)
             {
-                CNum = 1,
-                CName = "Test Criterion 1",
-                CRange = 1,
-                CWeight = 1,
-                CType = "CType :)",
-                OptimType = "OptimType :)",
-                EdIzmer = "EdIzmer :)",
-                ScaleType = "ScaleType :)",
-                Marks = new List<Mark>()
-            };
-            return View(fakeModel);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Criterion criterion = db.Criterions.Find(id);
+            if (criterion == null)
+            {
+                return HttpNotFound();
+            }
+            return View(criterion);
         }
 
         // GET: Criterion/Create
@@ -67,59 +43,86 @@ namespace DecisionMaking.Controllers
         }
 
         // POST: Criterion/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "CNum,CName,CRange,CWeight,CType,OptimType,EdIzmer,ScaleType")] Criterion criterion)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                db.Criterions.Add(criterion);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(criterion);
         }
 
         // GET: Criterion/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            var fakeModel = new Criterion
+            if (id == null)
             {
-                CNum = 1,
-                CName = "Test Criterion 1",
-                CRange = 1,
-                CWeight = 1,
-                CType = "CType :)",
-                OptimType = "OptimType :)",
-                EdIzmer = "EdIzmer :)",
-                ScaleType = "ScaleType :)",
-                Marks = new List<Mark>()
-            };
-            return View(fakeModel);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Criterion criterion = db.Criterions.Find(id);
+            if (criterion == null)
+            {
+                return HttpNotFound();
+            }
+            return View(criterion);
         }
 
         // POST: Criterion/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "CNum,CName,CRange,CWeight,CType,OptimType,EdIzmer,ScaleType")] Criterion criterion)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                db.Entry(criterion).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(criterion);
         }
 
         // GET: Criterion/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Criterion criterion = db.Criterions.Find(id);
+            if (criterion == null)
+            {
+                return HttpNotFound();
+            }
+            return View(criterion);
+        }
+
+        // POST: Criterion/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Criterion criterion = db.Criterions.Find(id);
+            db.Criterions.Remove(criterion);
+            db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

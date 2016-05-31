@@ -1,45 +1,39 @@
-﻿using DecisionMaking.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DecisionMaking.DAL;
+using DecisionMaking.Models;
 
 namespace DecisionMaking.Controllers
 {
     public class AlternativeController : Controller
     {
+        private DecisionContext db = new DecisionContext();
+
         // GET: Alternative
         public ActionResult Index()
         {
-            var result = new List<Alternative>
-            {
-                new Alternative()
-                {
-                    ANum = 1,
-                    AName = "Test Alternative 1",
-                    Results = new List<Result>()
-                },
-                new Alternative()
-                {
-                    ANum = 2,
-                    AName = "Test Alternative 2",
-                    Results = new List<Result>()
-                }
-            };
-            return View(result);
+            return View(db.Alternatives.ToList());
         }
 
         // GET: Alternative/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            var fakeModel = new Alternative()
+            if (id == null)
             {
-                ANum = 1,
-                AName = "Test Alternative1",
-                Results = new List<Result>()
-            };
-            return View(fakeModel);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Alternative alternative = db.Alternatives.Find(id);
+            if (alternative == null)
+            {
+                return HttpNotFound();
+            }
+            return View(alternative);
         }
 
         // GET: Alternative/Create
@@ -49,53 +43,86 @@ namespace DecisionMaking.Controllers
         }
 
         // POST: Alternative/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "ANum,AName")] Alternative alternative)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                db.Alternatives.Add(alternative);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(alternative);
         }
 
         // GET: Alternative/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            var fakeModel = new Alternative()
+            if (id == null)
             {
-                ANum = 1,
-                AName = "Test Alternative1",
-                Results = new List<Result>()
-            };
-            return View(fakeModel);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Alternative alternative = db.Alternatives.Find(id);
+            if (alternative == null)
+            {
+                return HttpNotFound();
+            }
+            return View(alternative);
         }
 
         // POST: Alternative/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ANum,AName")] Alternative alternative)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                db.Entry(alternative).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(alternative);
         }
 
         // GET: Alternative/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Alternative alternative = db.Alternatives.Find(id);
+            if (alternative == null)
+            {
+                return HttpNotFound();
+            }
+            return View(alternative);
+        }
+
+        // POST: Alternative/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Alternative alternative = db.Alternatives.Find(id);
+            db.Alternatives.Remove(alternative);
+            db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
