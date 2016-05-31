@@ -7,6 +7,9 @@ using System.Web;
 
 namespace DecisionMaking.Models
 {
+    /// <summary>
+    /// Возможные оценки(шкала оценок) по критериям качества
+    /// </summary>
     public class Mark
     {
         [Key]

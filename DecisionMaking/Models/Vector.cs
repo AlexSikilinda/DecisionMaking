@@ -7,6 +7,9 @@ using System.Web;
 
 namespace DecisionMaking.Models
 {
+    /// <summary>
+    /// Вектора оценок альтернатив
+    /// </summary>
     public class Vector
     {
         [Key]

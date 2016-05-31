@@ -7,6 +7,10 @@ using System.Web;
 
 namespace DecisionMaking.Models
 {
+
+    /// <summary>
+    /// Описание альтернатив
+    /// </summary>
     public class Alternative
     {
         [Key]

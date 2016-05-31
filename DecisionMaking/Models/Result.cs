@@ -7,6 +7,9 @@ using System.Web;
 
 namespace DecisionMaking.Models
 {
+    /// <summary>
+    /// Результат принятия решения
+    /// </summary>
     public class Result
     {
         [Key]
