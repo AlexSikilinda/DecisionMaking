@@ -22,9 +22,9 @@ namespace DecisionMaking.Models
 
         public int MRange { get; set; }
 
-        public int NumMark { get; set; }
+        public double NumMark { get; set; }
 
-        public int NormMark { get; set; }
+        public double NormMark { get; set; }
 
         public virtual Criterion Criterion { get; set; }
 

@@ -133,5 +133,26 @@ namespace DecisionMaking.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // GET: Result/MinMaxDecision
+        public ActionResult MinMaxDecision()
+        {
+            MinMaxViewModel model = new MinMaxViewModel();
+            var criterions = db.Criterions.Include(c => c.Marks).ToList();
+            var alternatives = db.Alternatives.Include("Vectors.Mark").ToList();
+            int criteriaNumber = criterions.Count();
+            int alternativeNumber = alternatives.Count();
+            double[,] initialMatrix = new double[alternativeNumber, criteriaNumber];
+            for (int i = 0; i < alternativeNumber; i++)
+            {
+                for (int j = 0; j < criteriaNumber; j++)
+                {
+                    double criteriaValue = alternatives[i].Vectors.ToList()[j].Mark.NumMark;
+                    initialMatrix[i, j] = criteriaValue;
+                }
+            }
+            model.InitialArray = initialMatrix;
+            return View();
+        }
     }
 }
