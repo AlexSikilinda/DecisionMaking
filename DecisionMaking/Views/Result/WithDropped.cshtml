@@ -1,0 +1,40 @@
+﻿@model string[,]
+@{
+    ViewBag.Title = "WithDropped";
+}
+
+<h2>Правило относительного большинства с выбыванием</h2>
+
+Количество людей - @Model.GetLength(1) <br />
+Количество альтернатив - @Model.GetLength(0)
+
+<br />
+<br />
+Доступные альтернативы:
+@foreach (DecisionMaking.Models.Alternative alternative in ViewBag.Aliternatives)
+{
+    <div>@alternative.AName - @alternative.ANum</div>
+}
+
+<br />
+
+@using (Html.BeginForm())
+{
+    for (int i = 0; i < Model.GetLength(0); i++)
+    {
+        for (int j = 0; j < Model.GetLength(1); j++)
+        {
+        <!--<text> @i,@j </text>-->
+
+            @Html.TextBox("result[" + i + "," + j + "]", null, new { @size = 2 })
+        }
+        <br />
+    }
+
+    <br />
+    <div class="form-group">
+        <div>
+            <input type="submit" value="Посчитать" id="resultBtn" class="btn btn-default" />
+        </div>
+    </div>
+}

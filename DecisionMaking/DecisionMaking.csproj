@@ -229,8 +229,7 @@
     <Content Include="Views\Vector\Details.cshtml" />
     <Content Include="Views\Vector\Edit.cshtml" />
     <Content Include="Views\Vector\Index.cshtml" />
-    <Content Include="Views\Result\MinMaxDecision.cshtml" />
-  </ItemGroup>
+<Content Include="Views\Result\WithDropped.cshtml" /><Content Include="Views\Result\MinMaxDecision.cshtml" />  </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
