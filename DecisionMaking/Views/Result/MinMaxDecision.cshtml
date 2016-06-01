@@ -38,12 +38,13 @@
         <h5>Result Table</h5>
         <table class="table">
             <tr>
-                <td></td>
+                <th></th>
                 @foreach (var criterion in Model.Alternatives.First().Vectors.Select(v => v.Mark).Select(m => m.Criterion).OrderBy(c => c.CName))
                 {
-                    <td><b>@criterion.CName</b></td>
+                    <th>@criterion.CName</th>
                 }
-                <td>Actions</td>
+                <th>Minimal elements</th>
+                <th>Actions</th>
             </tr>
             @for (int i = 0; i < Model.ResultMatrix.GetLength(0); i++)
             {
@@ -53,6 +54,7 @@
                     {
                         <td>@Model.ResultMatrix[i, j]</td>
                     }
+                    <td><b>@Enumerable.Range(0, Model.ResultMatrix.GetLength(1)).Select(k => Model.ResultMatrix[i, k]).Min()</b></td>
                     <td>
                         @using (Html.BeginForm("Submit", "Result", FormMethod.Post))
                         {
