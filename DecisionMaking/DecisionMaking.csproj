@@ -156,6 +156,7 @@
     <Compile Include="Models\Criterion.cs" />
     <Compile Include="Models\LPR.cs" />
     <Compile Include="Models\Mark.cs" />
+    <Compile Include="Models\MinMaxViewModel.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -229,8 +230,7 @@
     <Content Include="Views\Vector\Details.cshtml" />
     <Content Include="Views\Vector\Edit.cshtml" />
     <Content Include="Views\Vector\Index.cshtml" />
-    <Content Include="Views\Result\WithDropped.cshtml" />
-  </ItemGroup>
+<Content Include="Views\Result\WithDropped.cshtml" /><Content Include="Views\Result\MinMaxDecision.cshtml" />  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

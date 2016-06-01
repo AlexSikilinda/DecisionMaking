@@ -1,0 +1,35 @@
+﻿@model DecisionMaking.Models.MinMaxViewModel
+
+@{
+    ViewBag.Title = "MinMaxDecision";
+}
+
+<h2>MinMaxDecision</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>MinMaxViewModel</h4>
+        <hr />
+        
+        <div class="form-group">
+            <table>
+                @for (int i = 0; i < Model.InitialArray.GetLength(1); i++)
+                {
+                    <tr>
+                        @for (int j = 0; j < Model.InitialArray.GetLength(0); j++)
+                        {
+                            <td>@Model.InitialArray[j,i]</td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
