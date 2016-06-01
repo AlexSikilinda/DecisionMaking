@@ -26,15 +26,37 @@
         {
         <!--<text> @i,@j </text>-->
 
-            @Html.TextBox("result[" + i + "," + j + "]", null, new { @size = 2 })
+            @Html.TextBox("result_" + i + "_" + j, null, new { @size = 2 })
         }
         <br />
     }
 
     <br />
-    <div class="form-group">
-        <div>
-            <input type="submit" value="Посчитать" id="resultBtn" class="btn btn-default" />
-        </div>
-    </div>
 }
+<div class="form-group">
+    <div>
+        <button onclick="Boom()" class="btn btn-default">Посчитать</button>
+    </div>
+</div>
+
+<script>
+    var row = @Model.GetLength(0);
+    var col = @Model.GetLength(1);
+    var Boom = function () {
+        var result = [];
+        for (var i = 0; i < row; i++) {
+            var temp = [];
+            for (var j = 0; j < col; j++) {
+                var selector = "input[name='result_"+i+"_"+j+"']";
+                var value = $(selector).val();
+                temp.push(value)
+            }
+            result.push(temp);
+        }
+        debugger;
+        console.log(result);
+        $.post("/Result/WithDropped", {
+            result: JSON.stringify(result)
+        });
+    }
+</script>

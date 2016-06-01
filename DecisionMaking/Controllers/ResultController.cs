@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DecisionMaking.DAL;
 using DecisionMaking.Models;
+using Newtonsoft.Json;
 
 namespace DecisionMaking.Controllers
 {
@@ -138,9 +139,9 @@ namespace DecisionMaking.Controllers
         }
 
         [HttpPost]
-        public ActionResult WithDropped(string[,] result)
+        public ActionResult WithDropped(string result)
         {
-            
+            string[,] test = JsonConvert.DeserializeObject<string[,]>(result);
             return View();
         }
 
