@@ -53,10 +53,11 @@
             }
             result.push(temp);
         }
-        debugger;
         console.log(result);
         $.post("/Result/WithDropped", {
             result: JSON.stringify(result)
+        }).done(function( data ) {
+            alert("Победитель - " + data);
         });
     }
 </script>

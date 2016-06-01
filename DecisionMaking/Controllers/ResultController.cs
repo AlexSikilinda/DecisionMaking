@@ -129,8 +129,8 @@ namespace DecisionMaking.Controllers
         [HttpGet]
         public ActionResult WithDropped()
         {
-            int peopleCount = 7;//db.LPRs.Count();
-            int alternativeCount = 5; //db.Alternatives.Count();
+            int peopleCount = 5;//db.LPRs.Count();
+            int alternativeCount = 3; //db.Alternatives.Count();
 
             string[,] result = new string[alternativeCount, peopleCount]; // peopleCount - X, alternativeCount - Y
 
@@ -139,10 +139,49 @@ namespace DecisionMaking.Controllers
         }
 
         [HttpPost]
-        public ActionResult WithDropped(string result)
+        public string WithDropped(string result)
         {
             string[,] test = JsonConvert.DeserializeObject<string[,]>(result);
-            return View();
+            int peopleCount = test.GetLength(1);
+
+
+            var t = Enumerable.Range(0, peopleCount).Select(x => test[0, x]).GroupBy(x => x).OrderByDescending(x => x.Count()).ToList();
+
+
+
+            int firstCount = t[0].Count();
+            string maxFirst = t[0].Key;
+            peopleCount = (peopleCount % 2) == 0 ? peopleCount : ++peopleCount;
+
+
+            if (firstCount > (peopleCount / 2))
+            {
+                return maxFirst;
+            }
+
+            int secondCount = t[1].Count();
+            string maxSecond = t[1].Key;
+
+
+            int compare = 0;
+            for (int i = 0; i < test.GetLength(1); i++)
+            {
+                string[] row = GetRow(test, i);
+
+                int firstIndex = Array.IndexOf(row, maxFirst);
+                int secondIndex = Array.IndexOf(row, maxSecond);
+
+                compare += firstIndex < secondIndex ? 1 : -1;
+            }
+
+
+            return compare > 0 ? maxFirst : maxSecond;
+        }
+
+        private string[] GetRow(string[,] array, int index)
+        {
+            var t2 = Enumerable.Range(0, array.GetLength(0)).Select(x => array[x, index]).ToArray();
+            return t2;
         }
 
         protected override void Dispose(bool disposing)
@@ -173,7 +212,7 @@ namespace DecisionMaking.Controllers
             {
                 for (int j = 0; j < criteriaCount; j++)
                 {
-                    resultMatrix[i, j] = GetNormMnozhitel(initialMatrix, j)*initialMatrix[i,j];
+                    resultMatrix[i, j] = GetNormMnozhitel(initialMatrix, j) * initialMatrix[i, j];
                 }
             }
             return resultMatrix;
