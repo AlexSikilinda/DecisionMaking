@@ -138,6 +138,39 @@ namespace DecisionMaking.Controllers
         public ActionResult MinMaxDecision()
         {
             MinMaxViewModel model = new MinMaxViewModel();
+            model.Alternatives = db.Alternatives;
+            double[,] initialMatrix = GetInitialMatrix();
+            model.ResultMatrix = GetResultMatrix(initialMatrix);
+            return View(model);
+        }
+
+        private double[,] GetResultMatrix(double[,] initialMatrix)
+        {
+            int alterCount = db.Alternatives.Count();
+            int criteriaCount = db.Criterions.Count();
+            double[,] resultMatrix = new double[alterCount, criteriaCount];
+            for (int i = 0; i < alterCount; i++)
+            {
+                for (int j = 0; j < criteriaCount; j++)
+                {
+                    resultMatrix[i, j] = GetNormMnozhitel(initialMatrix, j)*initialMatrix[i,j];
+                }
+            }
+            return resultMatrix;
+        }
+
+        private double GetNormMnozhitel(double[,] initialMatrix, int j)
+        {
+            double sum = 0;
+            for (int i = 0; i < initialMatrix.GetLength(0); i++)
+            {
+                sum += initialMatrix[i, j];
+            }
+            return 1 / sum;
+        }
+
+        private double[,] GetInitialMatrix()
+        {
             var criterions = db.Criterions.Include(c => c.Marks).ToList();
             var alternatives = db.Alternatives.Include("Vectors.Mark").ToList();
             int criteriaNumber = criterions.Count();
@@ -147,12 +180,25 @@ namespace DecisionMaking.Controllers
             {
                 for (int j = 0; j < criteriaNumber; j++)
                 {
-                    double criteriaValue = alternatives[i].Vectors.ToList()[j].Mark.NumMark;
+                    double criteriaValue = alternatives[i].Vectors.OrderBy(v => v.Mark.Criterion.CName).ToList()[j].Mark.NumMark;
                     initialMatrix[i, j] = criteriaValue;
                 }
             }
-            model.InitialArray = initialMatrix;
-            return View();
+            return initialMatrix;
+        }
+
+        [HttpPost]
+        public ActionResult Submit(int anum, int lnum)
+        {
+            db.Results.Add(new Result
+            {
+                ANum = anum,
+                AWeight = 0,
+                LNum = lnum,
+                Range = 1
+            });
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
