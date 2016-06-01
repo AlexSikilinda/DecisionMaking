@@ -229,6 +229,7 @@
     <Content Include="Views\Vector\Details.cshtml" />
     <Content Include="Views\Vector\Edit.cshtml" />
     <Content Include="Views\Vector\Index.cshtml" />
+    <Content Include="Views\Result\WithDropped.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

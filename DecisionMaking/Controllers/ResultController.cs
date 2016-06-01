@@ -125,6 +125,25 @@ namespace DecisionMaking.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult WithDropped()
+        {
+            int peopleCount = 7;//db.LPRs.Count();
+            int alternativeCount = 5; //db.Alternatives.Count();
+
+            string[,] result = new string[alternativeCount, peopleCount]; // peopleCount - X, alternativeCount - Y
+
+            ViewBag.Aliternatives = db.Alternatives.ToList();
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult WithDropped(string[,] result)
+        {
+            
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
