@@ -9,27 +9,63 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>MinMaxViewModel</h4>
-        <hr />
-        
-        <div class="form-group">
-            <table>
-                @for (int i = 0; i < Model.InitialArray.GetLength(1); i++)
-                {
-                    <tr>
-                        @for (int j = 0; j < Model.InitialArray.GetLength(0); j++)
-                        {
-                            <td>@Model.InitialArray[j,i]</td>
-                        }
-                    </tr>
-                }
-            </table>
-        </div>
-    </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    if (Model.Alternatives.Count() > 0)
+    {
+        <h4></h4>
+        <h5>Initial table</h5>
+        <table class="table">
+            <tr>
+                <td></td>
+                @foreach (var criterion in Model.Alternatives.First().Vectors.Select(v => v.Mark).Select(m => m.Criterion).OrderBy(c => c.CName))
+                {
+                    <td><b>@criterion.CName</b></td>
+                }
+            </tr>
+            @foreach (var alternative in Model.Alternatives)
+            {
+                <tr>
+                    <td><b>@alternative.AName</b></td>
+
+                    @foreach (var mark in alternative.Vectors.Select(v => v.Mark).OrderBy(m => m.Criterion.CName))
+                    {
+                        <td>@mark.MName (@mark.NumMark)</td>
+                    }
+                </tr>
+            }
+        </table>
+        <hr />
+        <h5>Result Table</h5>
+        <table class="table">
+            <tr>
+                <th></th>
+                @foreach (var criterion in Model.Alternatives.First().Vectors.Select(v => v.Mark).Select(m => m.Criterion).OrderBy(c => c.CName))
+                {
+                    <th>@criterion.CName</th>
+                }
+                <th>Minimal elements</th>
+                <th>Actions</th>
+            </tr>
+            @for (int i = 0; i < Model.ResultMatrix.GetLength(0); i++)
+            {
+                <tr>
+                    <td><b>@Model.Alternatives.ToList()[i].AName</b></td>
+                    @for (int j = 0; j < Model.ResultMatrix.GetLength(1); j++)
+                    {
+                        <td>@Model.ResultMatrix[i, j]</td>
+                    }
+                    <td><b>@Enumerable.Range(0, Model.ResultMatrix.GetLength(1)).Select(k => Model.ResultMatrix[i, k]).Min()</b></td>
+                    <td>
+                        @using (Html.BeginForm("Submit", "Result", FormMethod.Post))
+                        {
+                            <span>LPR id:</span>
+                            <input type="hidden" name="anum" value="@Model.Alternatives.ToList()[i].ANum" />
+                            <input type="number" name="lnum" />
+                            <input type="submit" value="Select" class="btn" />
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+}
